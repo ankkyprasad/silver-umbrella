@@ -3,7 +3,7 @@ module Api
     class BlogsController < ApplicationController
       include JSONAPI::ActsAsResourceController
 
-      before_action :authenticate_devise_api_token!, only: %i[create update destroy]
+      before_action :authenticate_devise_api_token!, only: %i[show create update destroy]
       before_action :validate_blog_author, only: %i[update destroy]
 
       def validate_blog_author

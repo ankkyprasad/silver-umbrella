@@ -4,5 +4,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :validatable, :api
 
-  # has_many :blogs
+  validates :name, presence: true
+
+  has_many :blogs
 end

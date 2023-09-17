@@ -335,5 +335,10 @@ Devise.setup do |config|
     api.authorization.scheme = 'Bearer'
     api.authorization.location = :both
     api.authorization.params_key = 'access_token'
+
+    # Before callbacks
+    api.before_sign_up = lambda { |params, request, resource_class|
+      # resource_class.authentication_keys = [:name, :email]
+    }
   end
 end

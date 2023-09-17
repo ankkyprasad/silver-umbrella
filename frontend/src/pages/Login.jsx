@@ -1,18 +1,9 @@
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import useRedirectIfLoggedIn from "../hooks/useRedirectIfLoggedIn";
 
 import LoginForm from "../components/users/LoginForm";
-import { useEffect } from "react";
 
 const Login = () => {
-  const userState = useSelector((state) => state.user);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (userState.isLoggedIn) {
-      navigate("/");
-    }
-  }, []);
+  useRedirectIfLoggedIn();
 
   return (
     <>

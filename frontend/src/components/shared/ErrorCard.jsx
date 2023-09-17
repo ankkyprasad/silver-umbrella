@@ -3,7 +3,7 @@ import React from "react";
 const ErrorCard = ({ error }) => {
   return (
     <div
-      className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-zinc-900 dark:text-red-400"
+      className="p-4 mb-4 text-sm text-red-400 rounded-lg bg-zinc-900"
       role="alert"
     >
       <svg

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Card = ({ blog }) => {
   return (
     <div className="w-full lg:max-w-full lg:flex">
@@ -17,14 +19,14 @@ const Card = ({ blog }) => {
             #winter
           </span>
 
-          <div className="cursor-pointer">
+          <Link className="cursor-pointer" to={`/blogs/${blog.id}`}>
             <div className="text-gray-200 font-bold text-xl mb-2">
               {blog.title}
             </div>
             <p className="text-gray-400 text-base h-24 overflow-hidden text-ellipsis">
               {blog.description}
             </p>
-          </div>
+          </Link>
         </div>
         <div className="flex items-center">
           <img

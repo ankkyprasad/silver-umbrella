@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "blog",
+        path: "blogs",
         children: [
           {
             path: ":id",

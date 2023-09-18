@@ -8,7 +8,7 @@ module Api
       end
 
       def published_date
-        @model.created_at.strftime('%d %b')
+        @model.created_at.strftime('%d %b, %Y')
       end
     end
   end

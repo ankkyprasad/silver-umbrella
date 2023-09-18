@@ -1,9 +1,11 @@
 import React from "react";
 
-const ErrorCard = ({ error }) => {
+const ErrorCard = ({ error, flashMessageCard }) => {
   return (
     <div
-      className="p-4 mb-4 text-sm text-red-400 rounded-lg bg-zinc-900"
+      className={`p-4 mb-4 text-sm text-red-400 bg-zinc-900 rounded-lg ${
+        flashMessageCard ? "border-t-4 border-red-500 rounded-sm" : ""
+      }`}
       role="alert"
     >
       <svg
@@ -21,3 +23,7 @@ const ErrorCard = ({ error }) => {
 };
 
 export default ErrorCard;
+
+ErrorCard.defaultProps = {
+  flashMessageCard: false,
+};

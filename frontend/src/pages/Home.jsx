@@ -7,9 +7,7 @@ const Home = () => {
 
   return (
     <div className="text-white w-3/4 mx-auto my-8">
-      
-        <Blogs />
-      
+      <Blogs />
     </div>
   );
 };

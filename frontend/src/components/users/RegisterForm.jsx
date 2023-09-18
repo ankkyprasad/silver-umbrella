@@ -27,7 +27,9 @@ const RegisterForm = () => {
     onSuccess: (response) => {
       const token = response.data.token;
       localStorage.setItem("token", token);
-      dispatch(userSliceActions.loginUser());
+
+      const userData = response.data.resource_owner;
+      dispatch(userSliceActions.loginUser({ userData }));
       navigate("/");
     },
   });

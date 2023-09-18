@@ -18,7 +18,7 @@ const App = () => {
       try {
         const response = await tokenStatus();
         if (response.status === 200) {
-          dispatch(userSliceActions.loginUser());
+          dispatch(userSliceActions.loginUser({ userData: response.data }));
         }
       } catch (error) {
         dispatch(revokeTokenThunk());
@@ -30,7 +30,7 @@ const App = () => {
     if (token) {
       checkTokenStatus();
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

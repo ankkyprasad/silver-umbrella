@@ -30,3 +30,50 @@ export const getBlogWithId = async ({ id }) => {
     throw error.response;
   }
 };
+
+export const createBlog = async ({ blog }) => {
+  const { title, description, imageUrl } = blog;
+
+  const config = {
+    method: "post",
+    url: `${process.env.REACT_APP_URL}/api/v1/blogs`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/vnd.api+json",
+    },
+    data: {
+      data: {
+        attributes: {
+          title,
+          description,
+          "image-url": imageUrl,
+        },
+        type: "blogs",
+      },
+    },
+  };
+
+  try {
+    const response = await axios(config);
+    return response;
+  } catch (error) {
+    throw error.response;
+  }
+};
+
+export const deleteBlog = async ({ id }) => {
+  const config = {
+    method: "delete",
+    url: `${process.env.REACT_APP_URL}/api/v1/blogs/${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+
+  try {
+    const response = await axios(config);
+    return response;
+  } catch (error) {
+    throw error.response;
+  }
+};

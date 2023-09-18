@@ -32,14 +32,21 @@ const Navbar = () => {
     <nav className="py-6 bg-zinc-950 bg-opacity-95 shadow-sm shadow-gray-700">
       <ul className="flex gap-8 flex-row-reverse w-5/6 m-auto font-semibold text-gray-100">
         {userState.isLoggedIn ? (
-          <li>
-            <button
-              className="hover:text-gray-300 decoration-blue-400 hover:underline decoration-2 underline-offset-4"
-              onClick={logoutClickHandler}
-            >
-              Logout
-            </button>
-          </li>
+          <>
+            <li>
+              <button
+                className="hover:text-gray-300 decoration-blue-400 hover:underline decoration-2 underline-offset-4"
+                onClick={logoutClickHandler}
+              >
+                Logout
+              </button>
+            </li>
+            <li>
+              <NavLink to="/blogs/create" className={isActiveCallback}>
+                Create Blog
+              </NavLink>
+            </li>
+          </>
         ) : (
           <>
             <li>

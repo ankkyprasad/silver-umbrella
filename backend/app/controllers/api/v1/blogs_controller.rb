@@ -6,6 +6,12 @@ module Api
       before_action :authenticate_devise_api_token!, only: %i[show create update destroy]
       before_action :validate_blog_author, only: %i[update destroy]
 
+      def context
+        { current_user: current_devise_api_user }
+      end
+
+      private
+
       def validate_blog_author
         user_id = Blog.find_by_id(params[:id])&.user_id
 

@@ -32,7 +32,7 @@ image_urls = [
   'https://fastly.picsum.photos/id/15/1000/300.jpg?hmac=uRw9ThB12qvKl3cHparYYbW2vtoEeWxjptJ9IDgc1q0'
 ]
 
-40.times do
+30.times do
   title = Faker::Lorem.sentence(word_count: 5)
   description = Faker::Lorem.paragraph(sentence_count: 4)
   image_url = image_urls.sample
@@ -47,3 +47,24 @@ image_urls = [
 end
 
 p 'blogs created!'
+
+50.times do
+  Comment.create!(
+    content: Faker::Quote.famous_last_words,
+    commentable_id: Blog.all.sample.id,
+    commentable_type: Comment::VALID_COMMENTABLES.sample,
+    user_id: User.all.sample.id
+  )
+end
+
+p 'comment created!'
+
+400.times do
+  Like.create!(
+    likable_id: Comment.all.sample.id,
+    likable_type: Like::VALID_LIKABLES.sample,
+    user_id: User.all.sample.id
+  )
+end
+
+p 'likes created!'

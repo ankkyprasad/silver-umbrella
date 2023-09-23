@@ -1,17 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
 import Loading from "../../components/shared/LoadingSvg";
 
 import { getBlogWithId, deleteBlog } from "../../services/api/blogs";
-import { displayErrorMessage } from "../../store/flashSlice";
+import useDisplayErrorFlash from "../../hooks/useDisplayErrorFlash";
 
 const Show = () => {
-  const dispatch = useDispatch();
   const params = useParams();
   const navigate = useNavigate();
+  const displayFlashMessage = useDisplayErrorFlash();
 
   const userState = useSelector((state) => state.user);
   const userData = userState.data;
@@ -36,37 +36,37 @@ const Show = () => {
     if (blogQuery.isError) {
       switch (blogQuery.error.status) {
         case 401:
-          dispatch(
-            displayErrorMessage({
+          displayFlashMessage(
+            {
               header: "Unauthorized!!",
               message: "You need to login first.",
-            })
+            },
+            "/login"
           );
-          navigate("/login");
           break;
 
         case 404:
-          dispatch(
-            displayErrorMessage({
+          displayFlashMessage(
+            {
               header: "Not Found",
               message: "The blog you're trying to find does not exist",
-            })
+            },
+            "/"
           );
-          navigate("/");
           break;
 
         default:
-          dispatch(
-            displayErrorMessage({
+          displayFlashMessage(
+            {
               header: "Internal Server Error!",
               message: "Please sit tight. It will be fixed soon.",
-            })
+            },
+            "/"
           );
-          navigate("/");
           break;
       }
     }
-  }, [navigate, dispatch, blogQuery.isError, blogQuery.error]);
+  }, [blogQuery.isError, blogQuery.error, displayFlashMessage]);
 
   if (blogQuery.isLoading) {
     return (
@@ -89,7 +89,7 @@ const Show = () => {
   return (
     <div className="w-2/3 mx-auto">
       <img
-        src={data.attributes["image-url"]}
+        src={data.attributes["image_url"]}
         className="w-full object-cover rounded-md my-8"
         alt={data.attributes.title}
       />

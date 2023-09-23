@@ -1,15 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import LoadingSvg from "../shared/LoadingSvg";
 import { createBlog } from "../../services/api/blogs";
-import { displayErrorMessage } from "../../store/flashSlice";
+import useDisplayErrorFlash from "../../hooks/useDisplayErrorFlash";
 
 const Form = (props) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const displayFlash = useDisplayErrorFlash();
   const [blogData, setBlogData] = useState(props.initialBlogData);
 
   const inputChangeHandler = (e) => {
@@ -26,13 +25,11 @@ const Form = (props) => {
     },
     onError: (response) => {
       if (response.status === 401) {
-        dispatch(
-          displayErrorMessage({
-            header: "Unauthorized!!",
-            message: "You need to login first.",
-          })
-        );
-        navigate("/login");
+        const errorMessage = {
+          header: "Unauthorized!!",
+          message: "You need to login first.",
+        };
+        displayFlash(errorMessage, "/login");
       }
     },
   });

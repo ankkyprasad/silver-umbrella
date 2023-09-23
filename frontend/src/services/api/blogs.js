@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const getBlogs = async () => {
+export const getBlogs = async ({ pageNumber, pageSize }) => {
   const config = {
     method: "get",
-    url: `${process.env.REACT_APP_URL}/api/v1/blogs`,
+    url: `${process.env.REACT_APP_URL}/api/v1/blogs?page[number]=${pageNumber}`,
   };
 
   try {
@@ -46,7 +46,7 @@ export const createBlog = async ({ blog }) => {
         attributes: {
           title,
           description,
-          "image-url": imageUrl,
+          image_url: imageUrl,
         },
         type: "blogs",
       },

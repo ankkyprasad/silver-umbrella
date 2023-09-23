@@ -7,7 +7,7 @@ const Card = ({ blog }) => {
         className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
         style={{ backgroundImage: `url("${blog.imageUrl}")` }}
       ></div>
-      <div className="border-r border-b border-l border-gray-800 lg:border-l-0 lg:border-t rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal bg-gray-900 hover:bg-gray-800 hover:scale-105 transition-all">
+      <div className="border-r border-b border-l border-gray-800 lg:border-l-0 lg:border-t rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal bg-gray-900 hover:bg-gray-800 hover:scale-105 transition-all w-full">
         <div className="mb-8">
           <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
             #photography

@@ -1,7 +1,7 @@
 module Api
   module V1
     class CommentResource < JSONAPI::Resource
-      attributes :content, :commenter_name, :likes, :liked_by_user, :published_time_text, :published_by_user
+      attributes :content, :commenter_name, :likes, :liked_by_user, :published_time_text, :published_by_user, :commentable_id, :commentable_type
       filters :commentable_id, :commentable_type
 
       before_save do
@@ -12,8 +12,8 @@ module Api
         [{ field: 'created_at', direction: :desc }]
       end
 
-      def self.creatable_fields(context)
-        super - %i[commenter_name]
+      def fetchable_fields
+        super - %i[commentable_id commentable_type]
       end
 
       def commenter_name
@@ -30,8 +30,10 @@ module Api
 
       def published_time_text
         time_difference = (Time.zone.now - @model.created_at).to_i
-        units, unit_name = if time_difference < 1.hour
+        units, unit_name = if time_difference < 1.minute
                              [time_difference, 'second']
+                           elsif time_difference < 1.hour
+                             [time_difference / 1.minute, 'minute']
                            elsif time_difference < 1.day
                              [time_difference / 1.hour, 'hour']
                            elsif time_difference < 1.week

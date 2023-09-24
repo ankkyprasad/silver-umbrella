@@ -17,6 +17,34 @@ export const getComments = async ({ pageNumber }) => {
   }
 };
 
+export const createComment = async ({ comment }) => {
+  const config = {
+    method: "post",
+    url: `${process.env.REACT_APP_URL}/api/v1/comments`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/vnd.api+json",
+    },
+    data: {
+      data: {
+        attributes: {
+          content: comment.content,
+          commentable_id: comment.id,
+          commentable_type: comment.type,
+        },
+        type: "comments",
+      },
+    },
+  };
+
+  try {
+    const response = await axios(config);
+    return response;
+  } catch (error) {
+    throw error.response;
+  }
+};
+
 export const deleteComment = async ({ id }) => {
   const config = {
     method: "delete",

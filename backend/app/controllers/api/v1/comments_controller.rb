@@ -10,15 +10,6 @@ module Api
         { current_user: current_devise_api_user }
       end
 
-      # def index
-      #   unless Comment::VALID_COMMENTABLES.include?(params[:type])
-      #     return render json: { message: 'Invalid commentable_type.', valid_commentable_types: Comment::VALID_COMMENTABLES }, status: :unprocessable_entity
-      #   end
-
-      #   comments = Comment.where(commentable_id: params[:id], commentable_type: params[:type])
-      #   render json: { data: comments }, status: :ok
-      # end
-
       def destroy
         return render json: { message: 'You are not allowed to delete this comment.' }, status: :unauthorized if @comment.user_id != current_devise_api_user.id
 

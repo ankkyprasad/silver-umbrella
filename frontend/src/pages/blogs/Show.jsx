@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 
 import Loading from "../../components/shared/LoadingSvg";
 import Comments from "../../components/comments/Comments";
+import InputComment from "../../components/comments/InputComment";
 
 import { getBlogWithId, deleteBlog } from "../../services/api/blogs";
 import useDisplayErrorFlash from "../../hooks/useDisplayErrorFlash";
@@ -90,7 +91,8 @@ const Show = () => {
       )}
 
       <div>
-        <h1 className="text-orange-500 text-2xl font-bold mt-6">Comments</h1>
+        <h1 className="text-blue-500 text-2xl font-bold mt-6">Comments</h1>
+        <InputComment />
         <Comments />
       </div>
     </div>

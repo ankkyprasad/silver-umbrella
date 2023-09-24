@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 const Card = ({ blog }) => {
   return (
@@ -23,9 +24,9 @@ const Card = ({ blog }) => {
             <div className="text-gray-200 font-bold text-xl mb-2">
               {blog.title}
             </div>
-            <p className="text-gray-400 text-base h-24 overflow-hidden text-ellipsis">
-              {blog.description}
-            </p>
+            <div className="text-gray-400 text-base h-24 overflow-hidden text-ellipsis">
+              <ReactMarkdown>{blog.description}</ReactMarkdown>
+            </div>
           </Link>
         </div>
         <div className="flex items-center">

@@ -2,8 +2,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 import Loading from "../../components/shared/LoadingSvg";
+import Comments from "../../components/comments/Comments";
 
 import { getBlogWithId, deleteBlog } from "../../services/api/blogs";
 import useDisplayErrorFlash from "../../hooks/useDisplayErrorFlash";
@@ -34,39 +36,9 @@ const Show = () => {
 
   useEffect(() => {
     if (blogQuery.isError) {
-      switch (blogQuery.error.status) {
-        case 401:
-          displayFlashMessage(
-            {
-              header: "Unauthorized!!",
-              message: "You need to login first.",
-            },
-            "/login"
-          );
-          break;
-
-        case 404:
-          displayFlashMessage(
-            {
-              header: "Not Found",
-              message: "The blog you're trying to find does not exist",
-            },
-            "/"
-          );
-          break;
-
-        default:
-          displayFlashMessage(
-            {
-              header: "Internal Server Error!",
-              message: "Please sit tight. It will be fixed soon.",
-            },
-            "/"
-          );
-          break;
-      }
+      blogQueryErrorHandler(blogQuery, displayFlashMessage);
     }
-  }, [blogQuery.isError, blogQuery.error, displayFlashMessage]);
+  }, [blogQuery, blogQuery.isError, displayFlashMessage]);
 
   if (blogQuery.isLoading) {
     return (
@@ -98,13 +70,15 @@ const Show = () => {
         {data.attributes.title}
       </h1>
 
-      <p className="text-gray-300 mt-5 mb-8 font-semibold text-justify">
-        {data.attributes.description}
-      </p>
+      <div className="mt-5 mb-8 text-justify">
+        <ReactMarkdown className="prose prose-invert max-w-none">
+          {data.attributes.description}
+        </ReactMarkdown>
+      </div>
 
-      {userData.id === data.attributes["user-id"] && (
+      {userData.id === data.attributes["user_id"] && (
         <button
-          className={`inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-red-600 border border-red-700 rounded-md shadow-sm hover:bg-red-700 focus:outline-none w-full mt-4 ${
+          className={`inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-red-600 border border-red-700 rounded-md shadow-sm hover:bg-red-700 focus:outline-none w-full my-4 ${
             deleteMutation.isLoading
               ? "cursor-not-allowed bg-red-800 hover:bg-red-800"
               : ""
@@ -114,8 +88,47 @@ const Show = () => {
           {deleteMutation.isLoading ? <Loading /> : "Delete"}
         </button>
       )}
+
+      <div>
+        <h1 className="text-orange-500 text-2xl font-bold mt-6">Comments</h1>
+        <Comments />
+      </div>
     </div>
   );
 };
+
+function blogQueryErrorHandler(blogQuery, displayFlashMessage) {
+  switch (blogQuery.error.status) {
+    case 401:
+      displayFlashMessage(
+        {
+          header: "Unauthorized!!",
+          message: "You need to login first.",
+        },
+        "/login"
+      );
+      break;
+
+    case 404:
+      displayFlashMessage(
+        {
+          header: "Not Found",
+          message: "The blog you're trying to find does not exist",
+        },
+        "/"
+      );
+      break;
+
+    default:
+      displayFlashMessage(
+        {
+          header: "Internal Server Error!",
+          message: "Please sit tight. It will be fixed soon.",
+        },
+        "/"
+      );
+      break;
+  }
+}
 
 export default Show;

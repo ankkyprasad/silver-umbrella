@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getBlogs = async ({ pageNumber, pageSize }) => {
+export const getBlogs = async ({ pageNumber }) => {
   const config = {
     method: "get",
     url: `${process.env.REACT_APP_URL}/api/v1/blogs?page[number]=${pageNumber}`,

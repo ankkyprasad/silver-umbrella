@@ -5,19 +5,22 @@ import { AiFillLike } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 
 import { deleteComment } from "../../services/api/comments";
+import { createLike, deleteLike } from "../../services/api/likes";
 import queryClient from "../../services/query-client";
 
 const Card = ({ comment, id }) => {
   const {
     commenter_name: username,
-    liked_by_user: likedByUser,
     published_time_text: publishedTime,
     published_by_user: publishedByUser,
     content,
-    likes,
   } = comment;
 
   const params = useParams();
+
+  const [isLiked, setIsLiked] = useState(comment.liked_by_user);
+  const [likesCount, setLikesCount] = useState(comment.likes);
+  const [displayDropdown, setDisplayDropdown] = useState(false);
 
   const deleteCommentMutation = useMutation({
     mutationFn: deleteComment,
@@ -28,14 +31,36 @@ const Card = ({ comment, id }) => {
     },
   });
 
-  const [displayDropdown, setDisplayDropdown] = useState(false);
+  const createLikeMutation = useMutation({
+    mutationFn: createLike,
+    onSuccess: () => {
+      setIsLiked(true);
+      setLikesCount((prev) => prev + 1);
+    },
+  });
+
+  const deleteLikeMutation = useMutation({
+    mutationFn: deleteLike,
+    onSuccess: () => {
+      setIsLiked(false);
+      setLikesCount((prev) => prev - 1);
+    },
+  });
+
   const dropdownClickHandler = () => {
     setDisplayDropdown((prev) => !prev);
   };
 
   const likeButtonClickHandler = () => {
-    // like the comment if not liked
-    // unlike if already liked
+    const data = {
+      id,
+      type: "Comment",
+    };
+    if (isLiked) {
+      deleteLikeMutation.mutate({ data });
+    } else {
+      createLikeMutation.mutate({ data });
+    }
   };
 
   const deleteCommentHandler = () => {
@@ -49,10 +74,10 @@ const Card = ({ comment, id }) => {
           <AiFillLike
             onClick={likeButtonClickHandler}
             className={`text-4xl cursor-pointer ${
-              likedByUser ? "text-blue-500" : "text-white"
+              isLiked ? "text-blue-500" : "text-white"
             } `}
           />
-          <p className="text-gray-300 text-xs">{likes}</p>
+          <p className="text-gray-300 text-xs">{likesCount}</p>
         </div>
         <div>
           <div className="mb-2">

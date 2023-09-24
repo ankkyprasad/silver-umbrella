@@ -25,7 +25,7 @@ module Api
       end
 
       def liked_by_user
-        Like.exists?(likable_id: @model.id, likable_type: @model.class.name, user_id: @model.user_id)
+        Like.exists?(likable_id: @model.id, likable_type: @model.class.name, user_id: context[:current_user].id)
       end
 
       def published_time_text

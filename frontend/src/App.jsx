@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { QueryClientProvider } from "@tanstack/react-query";
 
-import router from "./services/router";
+import router from "./services/routes/router";
 import queryClient from "./services/query-client";
 
 import { tokenStatus } from "./services/api/users";
@@ -11,6 +11,7 @@ import { userSliceActions, revokeTokenThunk } from "./store/userSlice";
 
 const App = () => {
   const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
 
   useEffect(() => {
     const checkTokenStatus = async () => {
@@ -35,7 +36,7 @@ const App = () => {
     <>
       <QueryClientProvider client={queryClient}>
         <div className="min-h-screen flex flex-col">
-          <RouterProvider router={router} />
+          <RouterProvider router={router(userState.isLoggedIn)} />
         </div>
       </QueryClientProvider>
     </>

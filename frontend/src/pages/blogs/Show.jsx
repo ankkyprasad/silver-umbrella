@@ -9,12 +9,10 @@ import Comments from "../../components/comments/Comments";
 import InputComment from "../../components/comments/InputComment";
 
 import { getBlogWithId, deleteBlog } from "../../services/api/blogs";
-import useDisplayErrorFlash from "../../hooks/useDisplayErrorFlash";
 
 const Show = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const displayFlashMessage = useDisplayErrorFlash();
 
   const userState = useSelector((state) => state.user);
   const userData = userState.data;
@@ -35,11 +33,13 @@ const Show = () => {
     },
   });
 
-  useEffect(() => {
-    if (blogQuery.isError) {
-      blogQueryErrorHandler(blogQuery, displayFlashMessage);
-    }
-  }, [blogQuery, blogQuery.isError, displayFlashMessage]);
+  // TODO: Handle errors
+
+  // useEffect(() => {
+  //   if (blogQuery.isError) {
+  //     blogQueryErrorHandler(blogQuery, displayFlashMessage);
+  //   }
+  // }, [blogQuery, blogQuery.isError, displayFlashMessage]);
 
   if (blogQuery.isLoading) {
     return (

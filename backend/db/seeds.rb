@@ -34,7 +34,7 @@ image_urls = [
 
 30.times do
   title = Faker::Lorem.sentence(word_count: 5)
-  description = Faker::Lorem.paragraph(sentence_count: 4)
+  description = Faker::Lorem.paragraph(sentence_count: rand(50..100))
   image_url = image_urls.sample
   user_id = rand(2..21)
 

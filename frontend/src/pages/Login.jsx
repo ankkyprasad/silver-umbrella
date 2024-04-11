@@ -1,10 +1,6 @@
-import useRedirectIfLoggedIn from "../hooks/useRedirectIfLoggedIn";
-
 import LoginForm from "../components/users/LoginForm";
 
 const Login = () => {
-  useRedirectIfLoggedIn();
-
   return (
     <>
       <div className="flex-1 flex flex-col">

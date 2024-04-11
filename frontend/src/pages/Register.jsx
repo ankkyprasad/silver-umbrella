@@ -1,9 +1,7 @@
-import useRedirectIfLoggedIn from "../hooks/useRedirectIfLoggedIn";
 
 import RegisterForm from "../components/users/RegisterForm";
 
 const Register = () => {
-  useRedirectIfLoggedIn();
 
   return (
     <div className="flex-1 flex flex-col">

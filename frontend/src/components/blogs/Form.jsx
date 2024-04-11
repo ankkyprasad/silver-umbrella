@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import LoadingSvg from "../shared/LoadingSvg";
 import { createBlog } from "../../services/api/blogs";
-import useDisplayErrorFlash from "../../hooks/useDisplayErrorFlash";
 
 const Form = (props) => {
   const navigate = useNavigate();
-  const displayFlash = useDisplayErrorFlash();
   const [blogData, setBlogData] = useState(props.initialBlogData);
 
   const inputChangeHandler = (e) => {
@@ -29,7 +27,8 @@ const Form = (props) => {
           header: "Unauthorized!!",
           message: "You need to login first.",
         };
-        displayFlash(errorMessage, "/login");
+        // TODO: handle error
+        // displayFlash(errorMessage, "/login");
       }
     },
   });

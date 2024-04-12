@@ -8,6 +8,7 @@ import queryClient from "./services/query-client";
 
 import { tokenStatus } from "./services/api/users";
 import { userSliceActions, revokeTokenThunk } from "./store/userSlice";
+import LoadingSvg from "./components/shared/LoadingSvg";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,18 @@ const App = () => {
 
     if (token) {
       checkTokenStatus();
+    } else {
+      dispatch(revokeTokenThunk());
     }
   }, [dispatch]);
+
+  if (userState.loading) {
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <LoadingSvg />
+      </div>
+    );
+  }
 
   return (
     <>

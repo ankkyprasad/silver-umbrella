@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 
 import Loading from "../../components/shared/LoadingSvg";

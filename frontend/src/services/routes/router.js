@@ -10,7 +10,7 @@ const router = (isLoggedIn) => {
     {
       path: "/",
       element: <Root />,
-      onchange: "",
+
       children: [
         {
           index: true,

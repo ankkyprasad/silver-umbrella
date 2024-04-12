@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const Register = () => {
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col bg-black">
       <div className="text-gray-100 flex-1 flex">
         <div className="flex-1">
           <img

@@ -46,7 +46,8 @@ const RegisterForm = () => {
       <form onSubmit={registerSubmitHandler}>
         <div className="my-5">
           <Input
-            placeholder="Name"
+            placeholder="John Doe"
+            label={"Name"}
             value={name}
             setValue={setName}
             type="text"
@@ -54,7 +55,8 @@ const RegisterForm = () => {
         </div>
         <div className="my-5">
           <Input
-            placeholder="Email"
+            placeholder="john@doe.com"
+            label={"Email Address"}
             value={email}
             setValue={setEmail}
             type="email"
@@ -62,7 +64,8 @@ const RegisterForm = () => {
         </div>
         <div className="my-5">
           <Input
-            placeholder="Password"
+            placeholder="••••••••••••"
+            label={"Password"}
             value={password}
             setValue={setPassword}
             type="password"

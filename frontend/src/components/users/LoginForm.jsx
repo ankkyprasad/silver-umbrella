@@ -58,20 +58,22 @@ const LoginForm = () => {
     <>
       {loginMutation.isError && <ErrorCard error={errorState} />}
       <form onSubmit={loginSubmitHandler}>
-        <div className="my-5">
+        <div className="my-6">
           <Input
-            placeholder="Email"
+            placeholder="john@doe.com"
             value={email}
             setValue={setEmail}
             type="email"
+            label={"Email Address"}
           />
         </div>
-        <div className="my-5">
+        <div className="my-6">
           <Input
-            placeholder="Password"
+            placeholder="••••••••••••"
             value={password}
             setValue={setPassword}
             type="password"
+            label={"Password"}
           />
         </div>
         <button

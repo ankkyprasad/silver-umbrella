@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import { IoCreateOutline } from "react-icons/io5";
 
 import { revokeToken } from "../../services/api/users";
 import { revokeTokenThunk } from "../../store/userSlice";
@@ -27,7 +28,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="py-2 shadow-sm sticky top-0 z-50 bg-gray-100 border-b border-b-zinc-300">
+    <nav className="py-2 shadow-sm sticky top-0 z-50 bg-neutral-100 border-b-2 border-b-zinc-300">
       <div className="mx-10 flex justify-between items-center">
         <div className="flex items-center gap-6">
           <NavLink to="/">
@@ -53,9 +54,15 @@ const Navbar = () => {
           </div>
         </div>
 
-        <ul className="flex gap-4">
+        <ul className="flex gap-8">
           <li>
-            <NavLink to="/blogs/create">Create Blog</NavLink>
+            <NavLink
+              to="/blogs/create"
+              className="flex items-end gap-1 text-gray-500 hover:text-gray-700"
+            >
+              <IoCreateOutline className="text-2xl" />
+              <div className="text-sm">Write</div>
+            </NavLink>
           </li>
 
           <li>

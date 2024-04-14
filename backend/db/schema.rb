@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_13_194241) do
     t.string "title"
     t.text "description"
     t.string "image_url"
+    t.string "sub_heading"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

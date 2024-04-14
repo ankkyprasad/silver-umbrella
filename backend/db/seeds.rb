@@ -5,9 +5,9 @@ User.create!(name: 'Alice', email: 'alice@test.com', password: 'password')
   email = Faker::Internet.email
   password = Faker::Internet.password(min_length: 8, max_length: 20)
   User.create!(
-    name: name,
-    email: email,
-    password: password
+    name:,
+    email:,
+    password:
   )
 end
 
@@ -24,17 +24,19 @@ image_urls = [
   'https://fastly.picsum.photos/id/15/1000/300.jpg?hmac=uRw9ThB12qvKl3cHparYYbW2vtoEeWxjptJ9IDgc1q0'
 ]
 
-30.times do
-  title = Faker::Lorem.sentence(word_count: 5)
+100.times do
+  title = Faker::Lorem.sentence(word_count: rand(5..10))
   description = Faker::Lorem.paragraph(sentence_count: rand(50..100))
   image_url = image_urls.sample
-  user_id = rand(2..21)
+  user_id = User.all.sample
+  sub_heading = rand(0..1) == 1 ? Faker::Lorem.sentence(word_count: rand(5..15)) : nil
 
   Blog.create!(
-    title: title,
-    description: description,
-    image_url: image_url,
-    user_id: user_id
+    title:,
+    description:,
+    image_url:,
+    user_id:,
+    sub_heading:
   )
 end
 
@@ -62,3 +64,40 @@ p 'comment created!'
 end
 
 p 'likes created!'
+
+categories = [
+  'Personal Development',
+  'Food & Cooking',
+  'History',
+  'Technology',
+  'Travel',
+  'Health & Wellness',
+  'Psychology',
+  'Career & Business',
+  'Home & Garden',
+  'Finance',
+  'Lifestyle',
+  'Entertainment',
+  'Sustainability',
+  'Photography',
+  'Environment',
+  'Writing & Publishing',
+  'Beauty & Fashion',
+  'Parenting',
+  'Education',
+  'Social Media',
+  'Community',
+  'Architecture'
+]
+
+Category.create(categories.map { |name| { name: } })
+
+p 'categories created'
+
+300.times do
+  blog = Blog.all.sample
+  category = Category.all.sample
+  BlogCategoryMapping.create!(blog:, category:)
+end
+
+p 'added categories to blogs'

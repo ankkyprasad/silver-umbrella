@@ -1,5 +1,4 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Loading from "../shared/LoadingSvg";
 import { getBlogs } from "../../services/api/blogs";
 import Card from "./Card";
 import LoadingSvg from "../shared/LoadingSvg";
@@ -44,30 +43,20 @@ const Blogs = () => {
     };
 
     const observer = new IntersectionObserver((entries) => {
-      console.log(entries[0]);
       if (entries[0].isIntersecting && blogsQuery.hasNextPage !== false) {
         blogsQuery.fetchNextPage();
       }
     }, options);
 
-    console.log(loaderRef.current);
-
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
+    const currentLoaderRef = loaderRef.current;
+    if (currentLoaderRef) {
+      observer.observe(currentLoaderRef);
     }
 
     return () => {
-      if (loaderRef.current) observer.unobserve(loaderRef.current);
+      if (currentLoaderRef) observer.unobserve(currentLoaderRef);
     };
-  }, [loaderRef]);
-
-  // if (blogsQuery.isLoading) {
-  //   return (
-  //     <div className="flex justify-center">
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
+  }, [loaderRef, blogsQuery]);
 
   let blogsComponents = [];
 
@@ -100,11 +89,15 @@ const Blogs = () => {
 
   return (
     <div className="grid grid-cols-1 gap-6">
-      {blogsComponents}
+      {blogsQuery.isLoading ? (
+        <LoadingSvg className={"flex justify-center"} />
+      ) : (
+        blogsComponents
+      )}
 
       <div
         className="flex justify-center"
-        style={{ height: blogsQuery.hasNextPage ? "20px" : "inherit" }}
+        style={{ height: blogsQuery.hasNextPage ? "30px" : "inherit" }}
         ref={loaderRef}
       >
         {blogsQuery.isFetchingNextPage && <LoadingSvg />}

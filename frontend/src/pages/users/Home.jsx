@@ -1,5 +1,5 @@
-import Blogs from "../components/blogs/Blogs";
-import CategoryCard from "../components/shared/CategoryCard";
+import Blogs from "../../components/blogs/Blogs";
+import CategoryCard from "../../components/shared/CategoryCard";
 
 const Home = () => {
   return (

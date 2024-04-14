@@ -1,4 +1,4 @@
-import RegisterForm from "../components/users/RegisterForm";
+import RegisterForm from "../../components/users/RegisterForm";
 import { NavLink } from "react-router-dom";
 
 const Register = () => {

@@ -5,4 +5,6 @@ AllCops:
     - "config/**/*"
     - "db/**/*"
     - "bin/**/*"
-# Customize other RuboCop settings as per your requirements
+  Style/Documentation:
+    Ignore:
+      - Class

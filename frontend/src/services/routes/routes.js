@@ -1,6 +1,6 @@
-import Home from "../../pages/Home";
-import Login from "../../pages/Login";
-import Register from "../../pages/Register";
+import Home from "../../pages/users/Home";
+import Login from "../../pages/users/Login";
+import Register from "../../pages/users/Register";
 
 import ShowBlog from "../../pages/blogs/Show";
 import CreateBlog from "../../pages/blogs/Create";

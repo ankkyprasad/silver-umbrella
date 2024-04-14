@@ -28,7 +28,7 @@ image_urls = [
   title = Faker::Lorem.sentence(word_count: rand(5..10))
   description = Faker::Lorem.paragraph(sentence_count: rand(50..100))
   image_url = image_urls.sample
-  user_id = User.all.sample
+  user_id = User.all.sample.id
   sub_heading = rand(0..1) == 1 ? Faker::Lorem.sentence(word_count: rand(5..15)) : nil
 
   Blog.create!(

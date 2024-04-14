@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "devise/api/responses/token_response_decorator" # Either do this or autoload the lib directory
+
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -24,7 +26,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -36,7 +38,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -331,14 +333,16 @@ Devise.setup do |config|
     api.sign_up.enabled = true
 
     # Authorization
-    api.authorization.key = 'Authorization'
-    api.authorization.scheme = 'Bearer'
+    api.authorization.key = "Authorization"
+    api.authorization.scheme = "Bearer"
     api.authorization.location = :both
-    api.authorization.params_key = 'access_token'
+    api.authorization.params_key = "access_token"
 
     # Before callbacks
     api.before_sign_up = lambda { |params, request, resource_class|
-      # resource_class.authentication_keys = [:name, :email]
-    }
+ # resource_class.authentication_keys = [:name, :email]
+      }
   end
 end
+
+Devise::Api::Responses::TokenResponse.prepend Devise::Api::Responses::TokenResponseDecorator

@@ -19,7 +19,11 @@ const App = () => {
       try {
         const response = await tokenStatus();
         if (response.status === 200) {
-          dispatch(userSliceActions.loginUser({ userData: response.data }));
+          dispatch(
+            userSliceActions.loginUser({
+              userData: response.data.resource_owner,
+            })
+          );
         }
       } catch (error) {
         dispatch(revokeTokenThunk());

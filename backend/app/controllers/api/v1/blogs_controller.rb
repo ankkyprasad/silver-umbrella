@@ -3,11 +3,24 @@ module Api
     class BlogsController < ApplicationController
       include JSONAPI::ActsAsResourceController
 
-      before_action :authenticate_devise_api_token!, only: %i[show create update destroy]
+      before_action :authenticate_devise_api_token!
       before_action :validate_blog_author, only: %i[update destroy]
 
       def context
         { current_user: current_devise_api_user }
+      end
+
+      def find_by_category
+        category_name = params[:name]
+        category = Category.find_by(name: category_name)
+        return render json: { error: "Category not found!" }, status: :not_found if category.nil?
+
+        blogs = BlogCategoryMapping.where(category: category).includes(:blog).map do |mapping|
+          blog = mapping.blog
+          blog_resource_data = JSONAPI::ResourceSerializer.new(Api::V1::BlogResource).serialize_to_hash(Api::V1::BlogResource.new(blog, context))[:data]
+          blog_resource_data["attributes"].merge({ id: blog_resource_data["id"] })
+        end
+        render json: { data: blogs }
       end
 
       private

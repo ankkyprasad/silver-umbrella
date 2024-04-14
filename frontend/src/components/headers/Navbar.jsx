@@ -5,7 +5,7 @@ import { IoCreateOutline } from "react-icons/io5";
 
 import { revokeToken } from "../../services/api/users";
 import { revokeTokenThunk } from "../../store/userSlice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Search from "../svg/Search";
 import LoadingSvg from "../shared/LoadingSvg";
 
@@ -26,6 +26,22 @@ const Navbar = () => {
   const logoutClickHandler = () => {
     logoutMutation.mutate();
   };
+
+  const handleCloseDropdownFromOutside = (e) => {
+    if (e.target.id !== "user-menu") {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.body.addEventListener("click", handleCloseDropdownFromOutside);
+    return () => {
+      document.body.removeEventListener(
+        "click",
+        handleCloseDropdownFromOutside
+      );
+    };
+  });
 
   return (
     <nav className="py-2 shadow-sm sticky top-0 z-50 bg-neutral-100 border-b-2 border-b-zinc-300">
@@ -70,7 +86,8 @@ const Navbar = () => {
               src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=338&ext=jpg&ga=GA1.1.1700460183.1712793600&semt=ais"
               alt="Avatar"
               style={{ height: "30px", width: "30px" }}
-              className="rounded-xl cursor-pointer"
+              className="rounded-xl cursor-pointer user-menu"
+              id="user-menu"
               onClick={() => setShowDropdown((prev) => !prev)}
             />
 
@@ -80,7 +97,9 @@ const Navbar = () => {
               }`}
             >
               <div className="px-4 py-3 text-sm">
-                <div className="text-gray-800 font-bold">Bonnie Green</div>
+                <div className="text-gray-800 font-bold">
+                  {userState.data.name}
+                </div>
                 <div className="font-semibold truncate text-gray-600">
                   {userState.data.email}
                 </div>

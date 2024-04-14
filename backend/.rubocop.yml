@@ -1,0 +1,8 @@
+# .rubocop.yml
+
+AllCops:
+  Exclude:
+    - "config/**/*"
+    - "db/**/*"
+    - "bin/**/*"
+# Customize other RuboCop settings as per your requirements

@@ -13,7 +13,7 @@ module Api
       end
 
       def published_date
-        @model.created_at.strftime("%d %b, %Y")
+        @model.created_at.strftime('%d %b, %Y')
       end
 
       def likes_count

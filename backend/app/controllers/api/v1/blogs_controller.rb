@@ -13,12 +13,14 @@ module Api
       def find_by_category
         category_name = params[:name]
         category = Category.find_by(name: category_name)
-        return render json: { error: "Category not found!" }, status: :not_found if category.nil?
+        return render json: { error: 'Category not found!' }, status: :not_found if category.nil?
 
-        blogs = BlogCategoryMapping.where(category: category).includes(:blog).map do |mapping|
+        blogs = BlogCategoryMapping.where(category:).includes(:blog).map do |mapping|
           blog = mapping.blog
-          blog_resource_data = JSONAPI::ResourceSerializer.new(Api::V1::BlogResource).serialize_to_hash(Api::V1::BlogResource.new(blog, context))[:data]
-          blog_resource_data["attributes"].merge({ id: blog_resource_data["id"] })
+          blog_resource_data = JSONAPI::ResourceSerializer.new(Api::V1::BlogResource).serialize_to_hash(Api::V1::BlogResource.new(
+                                                                                                          blog, context
+                                                                                                        ))[:data]
+          blog_resource_data['attributes'].merge({ id: blog_resource_data['id'] })
         end
         render json: { data: blogs }
       end
@@ -28,7 +30,7 @@ module Api
       def validate_blog_author
         user_id = Blog.find_by_id(params[:id])&.user_id
 
-        return render status: 401 if current_devise_api_user.id != user_id
+        render status: 401 if current_devise_api_user.id != user_id
       end
     end
   end

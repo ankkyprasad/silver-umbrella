@@ -1,7 +1,8 @@
 module Api
   module V1
     class CommentResource < JSONAPI::Resource
-      attributes :content, :commenter_name, :likes, :liked_by_user, :published_time_text, :published_by_user, :commentable_id, :commentable_type
+      attributes :content, :commenter_name, :likes, :liked_by_user, :published_time_text, :published_by_user,
+                 :commentable_id, :commentable_type
       filters :commentable_id, :commentable_type
 
       before_save do

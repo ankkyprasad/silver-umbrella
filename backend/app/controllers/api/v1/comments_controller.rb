@@ -11,7 +11,10 @@ module Api
       end
 
       def destroy
-        return render json: { message: 'You are not allowed to delete this comment.' }, status: :unauthorized if @comment.user_id != current_devise_api_user.id
+        if @comment.user_id != current_devise_api_user.id
+          return render json: { message: 'You are not allowed to delete this comment.' },
+                        status: :unauthorized
+        end
 
         return render status: :no_content if @comment.destroy
 
@@ -22,7 +25,7 @@ module Api
 
       def find_comment
         @comment = Comment.find_by_id(params[:id])
-        return render json: { message: 'Comment Not Found.' }, status: :not_found if @comment.nil?
+        render json: { message: 'Comment Not Found.' }, status: :not_found if @comment.nil?
       end
     end
   end

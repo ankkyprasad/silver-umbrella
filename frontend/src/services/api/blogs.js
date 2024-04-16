@@ -35,7 +35,7 @@ export const getBlogWithId = async ({ id }) => {
 };
 
 export const createBlog = async ({ blog }) => {
-  const { title, description, imageUrl } = blog;
+  const { title, description, imageUrl, subHeading } = blog;
 
   const config = {
     method: "post",
@@ -50,6 +50,7 @@ export const createBlog = async ({ blog }) => {
           title,
           description,
           image_url: imageUrl,
+          sub_heading: subHeading,
         },
         type: "blogs",
       },

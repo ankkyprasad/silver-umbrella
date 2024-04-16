@@ -56,7 +56,9 @@ const LoginForm = () => {
 
   return (
     <>
-      {loginMutation.isError && <ErrorCard error={errorState} />}
+      {loginMutation.isError && (
+        <ErrorCard error={errorState} darkTheme={true} />
+      )}
       <form onSubmit={loginSubmitHandler}>
         <div className="my-6">
           <Input

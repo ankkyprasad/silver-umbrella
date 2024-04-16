@@ -3,17 +3,19 @@ import { getBlogs } from "../../services/api/blogs";
 import Card from "./Card";
 import LoadingSvg from "../shared/LoadingSvg";
 import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { revokeTokenThunk } from "../../store/userSlice";
+import ErrorCard from "../shared/ErrorCard";
 
 const Blogs = () => {
+  const dispatch = useDispatch();
+
   const blogsQuery = useInfiniteQuery({
     queryKey: ["blogs"],
     queryFn: ({ pageParam = 1 }) => {
       return getBlogs({
         pageNumber: pageParam,
       });
-    },
-    config: {
-      keepPreviousData: true,
     },
     getNextPageParam: (lastPage, _) => {
       const nextPageUrl = lastPage.data.links.next;
@@ -31,6 +33,7 @@ const Blogs = () => {
       return params["page%5Bnumber%5D"];
     },
     refetchOnWindowFocus: false,
+    retry: false,
   });
 
   const loaderRef = useRef(null);
@@ -43,7 +46,11 @@ const Blogs = () => {
     };
 
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && blogsQuery.hasNextPage !== false) {
+      if (
+        entries[0].isIntersecting &&
+        blogsQuery.hasNextPage !== false &&
+        blogsQuery.isError === false
+      ) {
         blogsQuery.fetchNextPage();
       }
     }, options);
@@ -59,8 +66,20 @@ const Blogs = () => {
   }, [loaderRef, blogsQuery]);
 
   let blogsComponents = [];
+  let errorData = {};
 
-  if (blogsQuery.isLoading === false) {
+  if (blogsQuery.isError) {
+    if (blogsQuery.error.status === 401) {
+      dispatch(revokeTokenThunk());
+    } else if (blogsQuery.error.status >= 500) {
+      errorData = {
+        header: "Internal Server Error",
+        message: "Please Hang tight, it will be fixed soon!",
+      };
+    }
+  }
+
+  if (blogsQuery.isLoading === false && blogsQuery.isError === false) {
     const blogsData = blogsQuery.data.pages
       .map((page) => page.data.data)
       .flat();
@@ -94,6 +113,8 @@ const Blogs = () => {
       ) : (
         blogsComponents
       )}
+
+      {blogsQuery.isError && <ErrorCard error={errorData} />}
 
       <div
         className="flex justify-center"

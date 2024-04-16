@@ -52,7 +52,7 @@ const Navbar = () => {
               src="https://lordicon.com/icons/wired/lineal/1685-beach-umbrella.svg"
               alt="Logo"
               style={{ height: "50px" }}
-              className="inline"
+              className="inline animate-wiggle"
             />
           </NavLink>
 

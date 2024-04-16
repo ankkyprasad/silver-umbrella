@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Sedan:ital@0;1&display=swap');
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+input[data-autocompleted] {
+    background-color: transparent !important;
+}
+
+@layer base {
+    html {
+        font-family: "Sedan", serif;
+    }
+}
+
 html {
     overflow: hidden;
     height: 100%;
@@ -11,3 +28,4 @@ body {
     overflow: auto;
     height: 100%;
 }
+

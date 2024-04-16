@@ -44,7 +44,7 @@ const Navbar = () => {
   });
 
   return (
-    <nav className="py-2 shadow-sm sticky top-0 z-50 bg-neutral-100 border-b-2 border-b-zinc-300">
+    <nav className="py-2 shadow-sm top-0 bg-neutral-100 border-b-2 border-b-zinc-300">
       <div className="mx-10 flex justify-between items-center">
         <div className="flex items-center gap-6">
           <NavLink to="/">
@@ -86,7 +86,7 @@ const Navbar = () => {
               src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=338&ext=jpg&ga=GA1.1.1700460183.1712793600&semt=ais"
               alt="Avatar"
               style={{ height: "30px", width: "30px" }}
-              className="rounded-xl cursor-pointer user-menu"
+              className="rounded-full cursor-pointer user-menu"
               id="user-menu"
               onClick={() => setShowDropdown((prev) => !prev)}
             />

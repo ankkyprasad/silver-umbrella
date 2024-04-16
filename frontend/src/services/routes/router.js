@@ -10,7 +10,7 @@ const router = (isLoggedIn) => {
     {
       path: "/",
       element: <Root />,
-
+      errorElement: routes.NOTFOUND,
       children: [
         {
           index: true,
@@ -36,6 +36,10 @@ const router = (isLoggedIn) => {
               element: getRoute(routes.CREATEBLOG, isLoggedIn),
             },
           ],
+        },
+        {
+          path: "not-found",
+          element: routes.NOTFOUND,
         },
       ],
     },

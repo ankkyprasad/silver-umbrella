@@ -88,7 +88,7 @@ const Blogs = () => {
       const newBlog = {
         id: blog.id,
         title: blog.attributes.title,
-        description: blog.attributes.description,
+        subHeading: blog.attributes["sub_heading"],
         authorName: blog.attributes.author_name,
         imageUrl: blog.attributes.image_url,
         publishedDate: blog.attributes.published_date,

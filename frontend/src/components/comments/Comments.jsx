@@ -2,7 +2,9 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import Card from "./Card";
-import Loading from "../shared/LoadingSvg";
+import LoadingSvg from "../shared/LoadingSvg";
+import { FaRegComment } from "react-icons/fa";
+import InputComment from "./InputComment";
 
 import { getComments } from "../../services/api/comments";
 
@@ -15,17 +17,46 @@ const Comments = () => {
     retry: false,
   });
 
-  if (commentQuery.isLoading) {
-    return <Loading />;
+  let commentCards = [];
+
+  if (commentQuery.isLoading === false && commentQuery.isError === false) {
+    console.log(commentQuery.data);
+    const commentsData = commentQuery.data.data.data;
+
+    commentCards = commentsData.map((comment) => (
+      <Card key={comment.id} comment={comment.attributes} id={comment.id} />
+    ));
   }
 
-  const commentsData = commentQuery.data.data.data;
+  return (
+    <>
+      <div className="drawer drawer-end">
+        <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content">
+          <label htmlFor="my-drawer-4" className="drawer-button cursor-pointer">
+            <FaRegComment />
+          </label>
+        </div>
+        <div className="drawer-side">
+          <label
+            htmlFor="my-drawer-4"
+            aria-label="close sidebar"
+            className="drawer-overlay"
+          ></label>
 
-  const commentsCard = commentsData.map((comment) => (
-    <Card key={comment.id} comment={comment.attributes} id={comment.id} />
-  ));
+          <div className="menu p-4 w-80 min-h-full bg-base-100 text-base-content">
+            <h1 className="text-xl font-bold">Responses</h1>
+            <InputComment />
+            <div className="mt-5">
+              {commentQuery.isLoading && <LoadingSvg />}
 
-  return <>{commentsCard}</>;
+              {commentCards}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Comments;

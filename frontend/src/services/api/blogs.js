@@ -65,6 +65,38 @@ export const createBlog = async ({ blog }) => {
   }
 };
 
+export const editBlog = async ({ blog }) => {
+  const { id, title, description, imageUrl, subHeading } = blog;
+
+  const config = {
+    method: "patch",
+    url: `${process.env.REACT_APP_URL}/api/v1/blogs/${id}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/vnd.api+json",
+    },
+    data: {
+      data: {
+        id,
+        attributes: {
+          title,
+          description,
+          image_url: imageUrl,
+          sub_heading: subHeading,
+        },
+        type: "blogs",
+      },
+    },
+  };
+
+  try {
+    const response = await axios(config);
+    return response.data;
+  } catch (error) {
+    throw error.response;
+  }
+};
+
 export const deleteBlog = async ({ id }) => {
   const config = {
     method: "delete",

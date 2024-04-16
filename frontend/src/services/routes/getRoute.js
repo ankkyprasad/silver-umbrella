@@ -18,6 +18,9 @@ export const getRoute = (route, isLoggedIn) => {
     case routes.CREATEBLOG:
       return authRequired(routes.CREATEBLOG, isLoggedIn);
 
+    case routes.EDITBLOG:
+      return authRequired(routes.EDITBLOG, isLoggedIn);
+
     default:
   }
 };

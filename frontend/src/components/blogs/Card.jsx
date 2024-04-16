@@ -9,7 +9,7 @@ const Card = ({ blog }) => {
       <div className="w-full bg-gradient-to-tr bg-stone-100 border border-zinc-300 px-8 py-4 flex rounded-3xl shadow-md hover:border-zinc-500">
         <div className="flex-1 flex flex-col justify-between">
           <div>
-            <div className="text-zinc-700 text-sm">
+            <div className="text-zinc-700 text-sm flex gap-3 items-center">
               <UserAvatar />
               {blog.authorName}
             </div>

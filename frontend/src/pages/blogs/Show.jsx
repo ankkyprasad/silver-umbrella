@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
-import { AiOutlineLike } from "react-icons/ai";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { MdOutlinePlayCircle } from "react-icons/md";
 
@@ -13,6 +12,7 @@ import { getBlogWithId } from "../../services/api/blogs";
 import { useDispatch } from "react-redux";
 import ErrorCard from "../../components/shared/ErrorCard";
 import { revokeTokenThunk } from "../../store/userSlice";
+import Like from "../../components/shared/Like";
 
 const Show = () => {
   const params = useParams();
@@ -86,12 +86,13 @@ const Show = () => {
 
           <div className="border-t border-b border-gray-200 py-3 px-4 flex justify-between text-lg">
             <div className="flex gap-6 items-center">
-              <div className="flex items-center gap-2">
-                <AiOutlineLike className="cursor-pointer inline" />
-                <span className="text-sm">
-                  {data.attributes["likes_count"]}
-                </span>
-              </div>
+              <Like
+                likesCount={data.attributes["likes_count"]}
+                entityType="Blog"
+                entityId={params.id}
+                isLiked={data.attributes["liked_by_user"]}
+              />
+
               <Comments />
             </div>
 
@@ -104,6 +105,7 @@ const Show = () => {
           <img
             src={data.attributes["image_url"]}
             className="w-full object-cover my-10"
+            style={{ height: "400px", width: "100%" }}
             alt={data.attributes.title}
           />
 

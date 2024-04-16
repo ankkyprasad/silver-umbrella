@@ -35,11 +35,19 @@ const router = (isLoggedIn) => {
               path: "create",
               element: getRoute(routes.CREATEBLOG, isLoggedIn),
             },
+            {
+              path: "edit/:id",
+              element: getRoute(routes.EDITBLOG, isLoggedIn),
+            },
           ],
         },
         {
           path: "not-found",
           element: routes.NOTFOUND,
+        },
+        {
+          path: "unauthorized",
+          element: routes.UNAUTHORIZED,
         },
       ],
     },

@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { VscKebabVertical } from "react-icons/vsc";
-import { AiFillLike } from "react-icons/ai";
 import { useParams } from "react-router-dom";
-
 import { deleteComment } from "../../services/api/comments";
-import { createLike, deleteLike } from "../../services/api/likes";
 import queryClient from "../../services/query-client";
 import UserAvatar from "../users/UserAvatar";
+import Like from "../shared/Like";
 
 const Card = ({ comment, id }) => {
   const {
@@ -18,9 +16,6 @@ const Card = ({ comment, id }) => {
   } = comment;
 
   const params = useParams();
-
-  const [isLiked, setIsLiked] = useState(comment.liked_by_user);
-  const [likesCount, setLikesCount] = useState(comment.likes);
   const [displayDropdown, setDisplayDropdown] = useState(false);
 
   const deleteCommentMutation = useMutation({
@@ -32,36 +27,8 @@ const Card = ({ comment, id }) => {
     },
   });
 
-  const createLikeMutation = useMutation({
-    mutationFn: createLike,
-    onSuccess: () => {
-      setIsLiked(true);
-      setLikesCount((prev) => prev + 1);
-    },
-  });
-
-  const deleteLikeMutation = useMutation({
-    mutationFn: deleteLike,
-    onSuccess: () => {
-      setIsLiked(false);
-      setLikesCount((prev) => prev - 1);
-    },
-  });
-
   const dropdownClickHandler = () => {
     setDisplayDropdown((prev) => !prev);
-  };
-
-  const likeButtonClickHandler = () => {
-    const data = {
-      id,
-      type: "Comment",
-    };
-    if (isLiked) {
-      deleteLikeMutation.mutate({ data });
-    } else {
-      createLikeMutation.mutate({ data });
-    }
   };
 
   const deleteCommentHandler = () => {
@@ -82,14 +49,13 @@ const Card = ({ comment, id }) => {
         </div>
         <p className="text-gray-700 font-light text-sm mt-3">{content}</p>
 
-        <div className="flex items-center gap-2 mt-1.5">
-          <AiFillLike
-            onClick={likeButtonClickHandler}
-            className={`text-md cursor-pointer ${
-              isLiked ? "text-blue-500" : "text-gray-600"
-            } `}
+        <div className="mt-1.5">
+          <Like
+            likesCount={comment.likes}
+            entityType="Comment"
+            entityId={id}
+            isLiked={comment.liked_by_user}
           />
-          <p className="text-gray-600 text-md">{likesCount}</p>
         </div>
       </div>
 

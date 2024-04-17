@@ -1,9 +1,12 @@
 import axios from "axios";
 
-export const getBlogs = async ({ pageNumber }) => {
+export const getBlogs = async ({ pageNumber, userId }) => {
+  let url = `${process.env.REACT_APP_URL}/api/v1/blogs?page[number]=${pageNumber}`;
+  if (userId) url = `${url}&filter[user_id]=${userId}`;
+
   const config = {
     method: "get",
-    url: `${process.env.REACT_APP_URL}/api/v1/blogs?page[number]=${pageNumber}`,
+    url: url,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },

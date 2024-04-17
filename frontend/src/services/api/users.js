@@ -66,3 +66,17 @@ export const revokeToken = async () => {
     throw error.response;
   }
 };
+
+export const findUserBySlug = async ({ slug }) => {
+  const config = {
+    method: "get",
+    url: `${process.env.REACT_APP_URL}/api/v1/users/find_by_slug?slug=${slug}`,
+  };
+
+  try {
+    const response = await axios(config);
+    return response.data;
+  } catch (error) {
+    throw error.response;
+  }
+};

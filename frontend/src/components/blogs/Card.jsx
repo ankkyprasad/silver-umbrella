@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
 import UserAvatar from "../users/UserAvatar";
+import { useSelector } from "react-redux";
 
-const Card = ({ blog }) => {
-  console.log(blog.subHeading);
+const Card = ({ blog, profileUserId }) => {
+  const currentUserState = useSelector((state) => state.user.data);
+
+  const navigationPath =
+    currentUserState.id === profileUserId
+      ? `/blogs/edit/${blog.id}`
+      : `/blogs/${blog.id}`;
 
   return (
-    <Link className="cursor-pointer" to={`/blogs/${blog.id}`}>
+    <Link className="cursor-pointer" to={navigationPath}>
       <div className="w-full bg-gradient-to-tr bg-stone-100 border border-zinc-300 px-8 py-4 flex rounded-3xl shadow-md hover:border-zinc-500">
         <div className="flex-1 flex flex-col justify-between">
           <div>

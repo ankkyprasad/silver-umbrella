@@ -20,7 +20,6 @@ const Comments = () => {
   let commentCards = [];
 
   if (commentQuery.isLoading === false && commentQuery.isError === false) {
-    console.log(commentQuery.data);
     const commentsData = commentQuery.data.data.data;
 
     commentCards = commentsData.map((comment) => (

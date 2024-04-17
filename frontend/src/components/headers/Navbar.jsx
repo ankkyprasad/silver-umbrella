@@ -105,13 +105,14 @@ const Navbar = () => {
                 </div>
               </div>
               <ul className="py-2 text-sm text-gray-600 font-normal">
-                {["Profile", "Library", "Stories"].map((item) => (
-                  <DropDownItem title={item} />
-                ))}
-              </ul>
-              <div className="py-2">
-                <p
-                  className="block px-4 py-2 text-sm text-gray-600 font-normal hover:bg-gray-100 w-full cursor-pointer"
+                <NavLink to={`/profile/${userState.data.slug}`}>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Profile
+                  </li>
+                </NavLink>
+
+                <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={logoutClickHandler}
                 >
                   {logoutMutation.isLoading ? (
@@ -121,8 +122,8 @@ const Navbar = () => {
                   ) : (
                     "Sign out"
                   )}
-                </p>
-              </div>
+                </li>
+              </ul>
             </div>
           </li>
         </ul>

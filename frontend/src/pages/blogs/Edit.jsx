@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Form from "../../components/blogs/Form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { editBlog, getBlogWithId } from "../../services/api/blogs";
+import { deleteBlog, editBlog, getBlogWithId } from "../../services/api/blogs";
 import LoadingSvg from "../../components/shared/LoadingSvg";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,6 +15,9 @@ const Edit = () => {
   const dispatch = useDispatch();
   const blogId = params.id;
   const userState = useSelector((state) => state.user.data);
+
+  let blogData = {};
+  let errorState = {};
 
   const blogQuery = useQuery({
     queryKey: ["blogs", blogId],
@@ -32,6 +35,17 @@ const Edit = () => {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: deleteBlog,
+    onSuccess: () => {
+      navigate(`/profile/${userState.slug}`);
+    },
+  });
+
+  const deleteButtonHandler = () => {
+    deleteMutation.mutate({ id: blogData?.id });
+  };
+
   if (blogQuery.isLoading) {
     return (
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -39,9 +53,6 @@ const Edit = () => {
       </div>
     );
   }
-
-  let blogData = {};
-  let errorState = {};
 
   if (blogQuery.isError) {
     switch (blogQuery.error.status) {
@@ -72,6 +83,17 @@ const Edit = () => {
     if (data.attributes.user_id !== userState.id) navigate("/unauthorized");
   }
 
+  const deleteBlogComponent = (
+    <button
+      className="btn rounded-full bg-red-600 text-gray-100 w-1/3 hover:bg-red-700 flex items-center justify-center"
+      onClick={deleteButtonHandler}
+      type="button"
+      disabled={deleteMutation.isLoading}
+    >
+      {deleteMutation.isLoading ? <LoadingSvg /> : "Delete"}
+    </button>
+  );
+
   return (
     <div className="w-1/3 mx-auto mt-10">
       {blogQuery.isError && <ErrorCard error={errorState} />}
@@ -80,20 +102,10 @@ const Edit = () => {
         blogData={blogData}
         mutation={blogEditMutation}
         submitButtonText={"Save"}
+        deleteBlogComponent={deleteBlogComponent}
       />
     </div>
   );
 };
 
 export default Edit;
-
-// const deleteButtonHandler = () => {
-//   deleteMutation.mutate({ id: data.id });
-// };
-
-// const deleteMutation = useMutation({
-//   mutationFn: deleteBlog,
-//   onSuccess: () => {
-//     navigate("/");
-//   },
-// });

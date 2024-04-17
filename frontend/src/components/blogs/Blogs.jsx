@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { revokeTokenThunk } from "../../store/userSlice";
 import ErrorCard from "../shared/ErrorCard";
 
-const Blogs = () => {
+const Blogs = (props) => {
   const dispatch = useDispatch();
 
   const blogsQuery = useInfiniteQuery({
@@ -15,6 +15,7 @@ const Blogs = () => {
     queryFn: ({ pageParam = 1 }) => {
       return getBlogs({
         pageNumber: pageParam,
+        userId: props.userId,
       });
     },
     getNextPageParam: (lastPage, _) => {
@@ -95,13 +96,7 @@ const Blogs = () => {
       };
 
       return (
-        <Card
-          key={newBlog.id}
-          blog={newBlog}
-          query={blogsQuery}
-          dataSize={blogsData.length}
-          index={index}
-        />
+        <Card key={newBlog.id} blog={newBlog} profileUserId={props.userId} />
       );
     });
   }

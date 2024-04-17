@@ -7,6 +7,7 @@ import CreateBlog from "../../pages/blogs/Create";
 import EditBlog from "../../pages/blogs/Edit";
 import NotFound from "../../pages/NotFound";
 import Unauthorized from "../../pages/Unauthorized";
+import Profile from "../../pages/users/Profile";
 
 const routes = Object.freeze({
   HOME: <Home />,
@@ -17,6 +18,7 @@ const routes = Object.freeze({
   EDITBLOG: <EditBlog />,
   NOTFOUND: <NotFound />,
   UNAUTHORIZED: <Unauthorized />,
+  PROFILE: <Profile />,
 });
 
 export default routes;

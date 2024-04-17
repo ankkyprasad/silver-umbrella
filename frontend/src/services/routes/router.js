@@ -42,6 +42,10 @@ const router = (isLoggedIn) => {
           ],
         },
         {
+          path: "/profile/:user_slug",
+          element: getRoute(routes.PROFILE, isLoggedIn),
+        },
+        {
           path: "not-found",
           element: routes.NOTFOUND,
         },

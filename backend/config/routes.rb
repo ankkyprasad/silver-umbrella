@@ -3,6 +3,11 @@ Rails.application.routes.draw do
     namespace :api do
       namespace :v1 do
         devise_for :users, skip: %i[session], defaults: { format: :json }
+        jsonapi_resources :users, only: %i[] do
+          collection do
+            get :find_by_slug
+          end
+        end
         jsonapi_resources :blogs do
           collection do
             get :find_by_category

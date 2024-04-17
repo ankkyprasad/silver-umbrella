@@ -11,7 +11,7 @@ const Blogs = (props) => {
   const dispatch = useDispatch();
 
   const blogsQuery = useInfiniteQuery({
-    queryKey: ["blogs"],
+    queryKey: props.userId ? ["blogs", props.userId] : ["blogs"],
     queryFn: ({ pageParam = 1 }) => {
       return getBlogs({
         pageNumber: pageParam,

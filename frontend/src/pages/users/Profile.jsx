@@ -7,6 +7,7 @@ import LoadingSvg from "../../components/shared/LoadingSvg";
 import ErrorCard from "../../components/shared/ErrorCard";
 import { useDispatch, useSelector } from "react-redux";
 import { revokeTokenThunk } from "../../store/userSlice";
+import Follow from "../../components/users/Follow";
 
 const Profile = () => {
   const params = useParams();
@@ -16,7 +17,7 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const getUserQuery = useQuery({
-    queryKey: ["user_by_slug"],
+    queryKey: ["user_by_slug", userSlug],
     queryFn: () => findUserBySlug({ slug: userSlug }),
     retry: false,
     refetchOnWindowFocus: false,
@@ -91,9 +92,11 @@ const Profile = () => {
             </div>
 
             {owner === false && (
-              <button className="btn btn-primary rounded-full mt-6">
-                Follow
-              </button>
+              <Follow
+                followsCurrentUser={profileUserData.follows_user}
+                followeeId={profileUserData.id}
+                followeeSlug={profileUserData.slug}
+              />
             )}
           </div>
         </>

@@ -67,7 +67,7 @@ const SelectCategoryCard = ({ selectedCategories, blogId }) => {
 
   const removeCategoryHandler = (categoryName) => {
     const currentCategory = allCategoriesData.find((el) => {
-      return el.attributes.name == categoryName;
+      return el.attributes.name === categoryName;
     });
 
     removeCategoryMutation.mutate({

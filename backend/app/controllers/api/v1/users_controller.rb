@@ -21,8 +21,8 @@ module Api
         }
 
         if current_devise_api_user.id != user.id
-          data.merge({ follows_user: Relationship.exists?(follower_id: current_devise_api_user.id,
-                                                          followee_id: user.id) })
+          data = data.merge({ follows_user: Relationship.exists?(follower_id: current_devise_api_user.id,
+                                                                 followee_id: user.id) })
         end
 
         render json: { data: }

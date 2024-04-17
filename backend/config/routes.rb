@@ -19,7 +19,11 @@ Rails.application.routes.draw do
         jsonapi_resources :comments, except: %i[show update]
         jsonapi_resources :likes, only: %i[create destroy]
         jsonapi_resources :categories, only: %i[index]
-        jsonapi_resources :relationships, only: %i[create destroy]
+        jsonapi_resources :relationships, only: %i[create] do
+          collection do
+            delete :destroy
+          end
+        end
       end
     end
   end

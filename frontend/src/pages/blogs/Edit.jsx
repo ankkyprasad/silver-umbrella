@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { revokeTokenThunk } from "../../store/userSlice";
 import ErrorCard from "../../components/shared/ErrorCard";
+import queryClient from "../../services/query-client";
 
 const Edit = () => {
   const params = useParams();
@@ -27,10 +28,7 @@ const Edit = () => {
   const blogEditMutation = useMutation({
     mutationFn: editBlog,
     onSuccess: () => {
-      console.log("edit success");
-    },
-    onError: () => {
-      console.log("error editing blog");
+      queryClient.invalidateQueries(["blogs", blogId]);
     },
   });
 

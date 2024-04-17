@@ -6,7 +6,7 @@ module Api
       include JSONAPI::ActsAsResourceController
 
       before_action :authenticate_devise_api_token!
-      before_action :validate_blog_author, only: %i[update destroy]
+      before_action :validate_blog_author, only: %i[update destroy add_category]
 
       def context
         { current_user: current_devise_api_user }
@@ -19,12 +19,34 @@ module Api
 
         blogs = BlogCategoryMapping.where(category:).includes(:blog).map do |mapping|
           blog = mapping.blog
-          blog_resource_data = JSONAPI::ResourceSerializer.new(Api::V1::BlogResource).serialize_to_hash(Api::V1::BlogResource.new(
-                                                                                                          blog, context
-                                                                                                        ))[:data]
+          blog_resource_data = JSONAPI::ResourceSerializer.new(Api::V1::BlogResource).serialize_to_hash(
+            Api::V1::BlogResource.new(
+              blog, context
+            )
+          )[:data]
           blog_resource_data['attributes'].merge({ id: blog_resource_data['id'] })
         end
         render json: { data: blogs }
+      end
+
+      def add_category
+        category_ids = params.dig(:data, :attributes, :category_ids)
+        blog_id = params.dig(:data, :attributes, :blog_id)
+        illegal_category_ids = category_ids.map do |id|
+          id if Category.exists?(id:) == false
+        end
+
+        if illegal_category_ids.present?
+          return render json: { error: "categories with id #{illegal_category_ids.join(', ')} not found!!" },
+                        status: :unprocessable_entity
+        end
+
+        blog_category_mapping = category_ids.map do |id|
+          { blog_id:, category_id: id }
+        end
+
+        BlogCategoryMapping.create!(blog_category_mapping)
+        render json: 'Categories added successfully!', status: :created
       end
 
       private

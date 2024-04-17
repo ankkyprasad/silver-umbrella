@@ -21,4 +21,7 @@
 class BlogCategoryMapping < ApplicationRecord
   belongs_to :blog
   belongs_to :category
+
+  validates :category, uniqueness: { scope: :blog,
+                                     message: 'already mapped with Blog' }
 end

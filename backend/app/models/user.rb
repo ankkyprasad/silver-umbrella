@@ -11,6 +11,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string(255)
+#  slug                   :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -31,4 +32,10 @@ class User < ApplicationRecord
   has_many :follows, through: :follow_users, dependent: :delete_all, source: :follower
   has_many :following_users, class_name: 'Relationship', foreign_key: :follower_id
   has_many :followings, through: :following_users, dependent: :delete_all, source: :followee
+
+  after_create :generate_slug
+
+  def generate_slug
+    update!(slug: email.split('@').first)
+  end
 end

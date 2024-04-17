@@ -6,6 +6,8 @@ module Api
       attributes :title, :description, :image_url, :author_name, :published_date, :user_id, :likes_count, :categories
       attributes :sub_heading, :read_time, :liked_by_user
 
+      filter :user_id
+
       before_save do
         @model.user_id = context[:current_user].id if @model.new_record?
       end
@@ -41,8 +43,8 @@ module Api
       end
 
       def self.default_sort
-        [{field: 'created_at', direction: :desc}, {field: 'title', direction: :desc}]
-      end      
+        [{ field: 'created_at', direction: :desc }, { field: 'title', direction: :desc }]
+      end
     end
   end
 end

@@ -64,7 +64,7 @@ const Form = (props) => {
         className="text-lg outline-none block w-full pl-4 py-1.5 bg-neutral-100 placeholder-gray-400 text-gray-600 border-l border-neutral-100 focus:border-gray-400 mb-4"
         placeholder="Sub Heading"
         name="subHeading"
-        value={blogData.subHeading}
+        value={blogData.subHeading ?? ""}
         onChange={inputChangeHandler}
         required={false}
       />
@@ -85,6 +85,7 @@ const Form = (props) => {
           style={{ height: "400px", width: "100%" }}
           onError={imageOnErrorHandler}
           className="fit-cover"
+          alt=""
         />
       )}
 

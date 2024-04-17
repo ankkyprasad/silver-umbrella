@@ -35,7 +35,7 @@ const Profile = () => {
     owner = profileUserData.id === currentUserState.id;
   } else {
     if (getUserQuery.error.status === 404) {
-      navigate("/not-found");
+      navigate("/error", { state: { message: "Not Found" } });
     } else if (getUserQuery.error.status >= 500) {
       errorData = {
         header: "Internal Server Error",

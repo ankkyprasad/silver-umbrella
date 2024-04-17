@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         jsonapi_resources :users, only: %i[] do
           collection do
             get :find_by_slug
+            get :find_slug_by_id
           end
         end
         jsonapi_resources :blogs do

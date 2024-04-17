@@ -37,16 +37,20 @@ const Show = () => {
   }
 
   let data = null;
-  let errorState = null;
+  let errorState = {
+    header: "",
+    message: "",
+  };
 
   if (blogQuery.isError) {
+    console.log("here", blogQuery.error.status);
     switch (blogQuery.error.status) {
       case 401:
         dispatch(revokeTokenThunk());
         break;
 
       case 404:
-        navigate("/not-found");
+        navigate("/error", { state: { message: "Not Found" } });
         break;
 
       default:

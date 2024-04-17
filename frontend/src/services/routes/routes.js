@@ -5,9 +5,9 @@ import Register from "../../pages/users/Register";
 import ShowBlog from "../../pages/blogs/Show";
 import CreateBlog from "../../pages/blogs/Create";
 import EditBlog from "../../pages/blogs/Edit";
-import NotFound from "../../pages/NotFound";
-import Unauthorized from "../../pages/Unauthorized";
+import Error from "../../pages/fallbacks/Error";
 import Profile from "../../pages/users/Profile";
+import Loading from "../../pages/fallbacks/Loading";
 
 const routes = Object.freeze({
   HOME: <Home />,
@@ -16,9 +16,10 @@ const routes = Object.freeze({
   SHOWBLOG: <ShowBlog />,
   CREATEBLOG: <CreateBlog />,
   EDITBLOG: <EditBlog />,
-  NOTFOUND: <NotFound />,
-  UNAUTHORIZED: <Unauthorized />,
+  ERROR: <Error />,
+
   PROFILE: <Profile />,
+  LOADING: <Loading />,
 });
 
 export default routes;

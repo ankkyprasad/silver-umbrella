@@ -1,21 +1,25 @@
-import { NavLink } from "react-router-dom";
+import useRedirectToUserProfile from "../../hooks/useRedirectToUserProfile";
 import UserAvatar from "../users/UserAvatar";
 
 const FollowUser = ({ readTime, publishedDate, authorName, userId }) => {
+  const redirectToUserProfile = useRedirectToUserProfile(userId);
+
+  const onClickHandler = () => {
+    redirectToUserProfile();
+  };
+
   return (
     <div className="w-full flex items-center gap-x-4">
-      {/* redirect to user profile on click image */}
-      <NavLink>
-        <UserAvatar />
-      </NavLink>
+      <UserAvatar enableRedirect={true} userId={userId} />
 
       <div>
-        <div className="text-gray-700">
-          <span>{authorName} · </span>
-          <button className="cursor-pointer text-indigo-500 hover:text-indigo-700">
-            Follow
-          </button>
+        <div
+          className="hover:underline cursor-pointer select-none"
+          onClick={onClickHandler}
+        >
+          {authorName}
         </div>
+
         <div className="text-gray-500">
           {readTime} min read · {publishedDate}
         </div>

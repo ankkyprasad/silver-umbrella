@@ -20,6 +20,13 @@ module Api
 
         render json: { data: user }
       end
+
+      def find_slug_by_id
+        user = User.find_by_id(params[:id])
+        return render json: { error: 'User not found' }, status: :not_found if user.nil?
+
+        render json: { data: { slug: user.slug } }
+      end
     end
   end
 end

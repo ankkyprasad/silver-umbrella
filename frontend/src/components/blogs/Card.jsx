@@ -16,7 +16,7 @@ const Card = ({ blog, profileUserId }) => {
         <div className="flex-1 flex flex-col justify-between">
           <div>
             <div className="text-zinc-700 text-sm flex gap-3 items-center">
-              <UserAvatar />
+              <UserAvatar /> 
               {blog.authorName}
             </div>
 

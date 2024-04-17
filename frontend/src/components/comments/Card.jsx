@@ -6,6 +6,7 @@ import { deleteComment } from "../../services/api/comments";
 import queryClient from "../../services/query-client";
 import UserAvatar from "../users/UserAvatar";
 import Like from "../shared/Like";
+import useRedirectToUserProfile from "../../hooks/useRedirectToUserProfile";
 
 const Card = ({ comment, id }) => {
   const {
@@ -17,6 +18,7 @@ const Card = ({ comment, id }) => {
 
   const params = useParams();
   const [displayDropdown, setDisplayDropdown] = useState(false);
+  const redirectToUserProfile = useRedirectToUserProfile(comment.user_id);
 
   const deleteCommentMutation = useMutation({
     mutationFn: deleteComment,
@@ -35,13 +37,20 @@ const Card = ({ comment, id }) => {
     deleteCommentMutation.mutate({ id });
   };
 
+  const onClickUsernameHandler = () => {
+    redirectToUserProfile();
+  };
+
   return (
     <div className="mb-4 py-3 flex justify-between border-t border-gray-200">
       <div>
         <div className="mb-2 flex gap-4 items-center">
-          <UserAvatar />
+          <UserAvatar enableRedirect={true} userId={comment.user_id} />
           <div>
-            <h4 className="text-gray-800 font-semibold font-mono">
+            <h4
+              className="text-gray-800 font-semibold font-mono cursor-pointer hover:underline"
+              onClick={onClickUsernameHandler}
+            >
               {username}
             </h4>
             <p className="text-xs text-gray-500">{publishedTime}</p>

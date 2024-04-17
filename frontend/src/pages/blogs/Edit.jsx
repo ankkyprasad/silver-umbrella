@@ -61,7 +61,7 @@ const Edit = () => {
         break;
 
       case 404:
-        navigate("/not-found");
+        navigate("/error", { state: { message: "Not Found" } });
         break;
 
       default:
@@ -80,7 +80,8 @@ const Edit = () => {
       imageUrl: data.attributes["image_url"],
       subHeading: data.attributes["sub_heading"],
     };
-    if (data.attributes.user_id !== userState.id) navigate("/unauthorized");
+    if (data.attributes.user_id !== userState.id)
+      navigate("/error", { state: { message: "Unauthorized" } });
   }
 
   const deleteBlogComponent = (

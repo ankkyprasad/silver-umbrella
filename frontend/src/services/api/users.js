@@ -80,3 +80,17 @@ export const findUserBySlug = async ({ slug }) => {
     throw error.response;
   }
 };
+
+export const findSlugById = async ({ userId }) => {
+  const config = {
+    method: "get",
+    url: `${process.env.REACT_APP_URL}/api/v1/users/find_slug_by_id?id=${userId}`,
+  };
+
+  try {
+    const response = await axios(config);
+    return response;
+  } catch (error) {
+    throw error.response;
+  }
+};

@@ -46,12 +46,12 @@ const router = (isLoggedIn) => {
           element: getRoute(routes.PROFILE, isLoggedIn),
         },
         {
-          path: "not-found",
-          element: routes.NOTFOUND,
+          path: "error",
+          element: routes.ERROR,
         },
         {
-          path: "unauthorized",
-          element: routes.UNAUTHORIZED,
+          path: "/loading",
+          element: routes.LOADING,
         },
       ],
     },

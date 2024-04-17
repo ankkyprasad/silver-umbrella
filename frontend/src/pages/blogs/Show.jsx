@@ -26,6 +26,7 @@ const Show = () => {
         id: params.id,
       }),
     retry: false,
+    refetchOnWindowFocus: false,
   });
 
   if (blogQuery.isLoading) {
@@ -43,7 +44,6 @@ const Show = () => {
   };
 
   if (blogQuery.isError) {
-    console.log("here", blogQuery.error.status);
     switch (blogQuery.error.status) {
       case 401:
         dispatch(revokeTokenThunk());

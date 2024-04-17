@@ -4,10 +4,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteBlog, editBlog, getBlogWithId } from "../../services/api/blogs";
 import LoadingSvg from "../../components/shared/LoadingSvg";
 import { useDispatch, useSelector } from "react-redux";
-
 import { revokeTokenThunk } from "../../store/userSlice";
 import ErrorCard from "../../components/shared/ErrorCard";
 import queryClient from "../../services/query-client";
+import SelectCategoryCard from "../../components/categories/SelectCategoryCard";
 
 const Edit = () => {
   const params = useParams();
@@ -26,6 +26,7 @@ const Edit = () => {
         id: blogId,
       }),
     retry: false,
+    refetchOnWindowFocus: false,
   });
 
   const blogEditMutation = useMutation({
@@ -79,6 +80,7 @@ const Edit = () => {
       description: data.attributes.description,
       imageUrl: data.attributes["image_url"],
       subHeading: data.attributes["sub_heading"],
+      categories: data.attributes.categories,
     };
     if (data.attributes.user_id !== userState.id)
       navigate("/error", { state: { message: "Unauthorized" } });
@@ -96,15 +98,31 @@ const Edit = () => {
   );
 
   return (
-    <div className="w-1/3 mx-auto mt-10">
-      {blogQuery.isError && <ErrorCard error={errorState} />}
-
-      <Form
-        blogData={blogData}
-        mutation={blogEditMutation}
-        submitButtonText={"Save"}
-        deleteBlogComponent={deleteBlogComponent}
-      />
+    <div className=" mt-6 flex">
+      {blogQuery.isError ? (
+        <ErrorCard error={errorState} />
+      ) : (
+        <>
+          <div className="w-2/3">
+            <div className="shadow-lg border border-gray-200 mx-auto w-2/3 card">
+              <div className="card-body">
+                <Form
+                  blogData={blogData}
+                  mutation={blogEditMutation}
+                  submitButtonText={"Save"}
+                  deleteBlogComponent={deleteBlogComponent}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex-1 mx-16">
+            <SelectCategoryCard
+              selectedCategories={blogData.categories}
+              blogId={blogId}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

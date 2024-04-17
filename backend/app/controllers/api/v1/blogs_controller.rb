@@ -6,7 +6,7 @@ module Api
       include JSONAPI::ActsAsResourceController
 
       before_action :authenticate_devise_api_token!
-      before_action :validate_blog_author, only: %i[update destroy add_category]
+      before_action :validate_blog_author, only: %i[update destroy add_categories remove_category]
 
       def context
         { current_user: current_devise_api_user }
@@ -29,12 +29,10 @@ module Api
         render json: { data: blogs }
       end
 
-      def add_category
+      def add_categories
         category_ids = params.dig(:data, :attributes, :category_ids)
         blog_id = params.dig(:data, :attributes, :blog_id)
-        illegal_category_ids = category_ids.map do |id|
-          id if Category.exists?(id:) == false
-        end
+        illegal_category_ids = category_ids.select { |id| Category.exists?(id:) == false }
 
         if illegal_category_ids.present?
           return render json: { error: "categories with id #{illegal_category_ids.join(', ')} not found!!" },
@@ -49,10 +47,17 @@ module Api
         render json: 'Categories added successfully!', status: :created
       end
 
+      def remove_category
+        category_id = params.dig(:data, :attributes, :category_id)
+        blog_id = params.dig(:data, :attributes, :blog_id)
+        BlogCategoryMapping.destroy_by(category_id:, blog_id:)
+        render status: :no_content
+      end
+
       private
 
       def validate_blog_author
-        user_id = Blog.find_by_id(params[:id])&.user_id
+        user_id = Blog.find_by_id(params[:id] || params.dig(:data, :attributes, :blog_id))&.user_id
 
         render status: 401 if current_devise_api_user.id != user_id
       end

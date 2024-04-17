@@ -71,6 +71,9 @@ export const findUserBySlug = async ({ slug }) => {
   const config = {
     method: "get",
     url: `${process.env.REACT_APP_URL}/api/v1/users/find_by_slug?slug=${slug}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
   };
 
   try {

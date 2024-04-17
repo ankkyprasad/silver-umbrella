@@ -15,6 +15,7 @@ const Comments = () => {
     queryKey: ["comments", "Blog", params.id],
     queryFn: () => getComments({ pageNumber: params.id }),
     retry: false,
+    refetchOnWindowFocus: false,
   });
 
   let commentCards = [];

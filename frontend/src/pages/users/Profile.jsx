@@ -5,18 +5,21 @@ import { useQuery } from "@tanstack/react-query";
 import { findUserBySlug } from "../../services/api/users";
 import LoadingSvg from "../../components/shared/LoadingSvg";
 import ErrorCard from "../../components/shared/ErrorCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { revokeTokenThunk } from "../../store/userSlice";
 
 const Profile = () => {
   const params = useParams();
   const userSlug = params.user_slug;
   const navigate = useNavigate("/");
   const currentUserState = useSelector((state) => state.user.data);
+  const dispatch = useDispatch();
 
   const getUserQuery = useQuery({
     queryKey: ["user_by_slug"],
     queryFn: () => findUserBySlug({ slug: userSlug }),
     retry: false,
+    refetchOnWindowFocus: false,
   });
 
   if (getUserQuery.isLoading) {
@@ -36,6 +39,8 @@ const Profile = () => {
   } else {
     if (getUserQuery.error.status === 404) {
       navigate("/error", { state: { message: "Not Found" } });
+    } else if (getUserQuery.error.status === 401) {
+      dispatch(revokeTokenThunk);
     } else if (getUserQuery.error.status >= 500) {
       errorData = {
         header: "Internal Server Error",

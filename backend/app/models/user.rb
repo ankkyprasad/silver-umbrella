@@ -28,9 +28,9 @@ class User < ApplicationRecord
   has_many :blogs
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
-  has_many :follow_users, class_name: 'Relationship', foreign_key: :followee_id
+  has_many :follow_users, class_name: 'Relationship', foreign_key: :follower_id
   has_many :follows, through: :follow_users, dependent: :delete_all, source: :follower
-  has_many :following_users, class_name: 'Relationship', foreign_key: :follower_id
+  has_many :following_users, class_name: 'Relationship', foreign_key: :followee_id
   has_many :followings, through: :following_users, dependent: :delete_all, source: :followee
 
   after_create :generate_slug

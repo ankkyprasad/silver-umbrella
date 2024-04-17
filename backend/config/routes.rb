@@ -12,11 +12,14 @@ Rails.application.routes.draw do
         jsonapi_resources :blogs do
           collection do
             get :find_by_category
+            post :add_categories
+            delete :remove_category
           end
         end
         jsonapi_resources :comments, except: %i[show update]
         jsonapi_resources :likes, only: %i[create destroy]
         jsonapi_resources :categories, only: %i[index]
+        jsonapi_resources :relationships, only: %i[create destroy]
       end
     end
   end

@@ -41,8 +41,7 @@ class Blog < ApplicationRecord
   end
 
   def feature_map
-    @categories = Category.all if @categories.nil?
     scores = blog_category_mappings.pluck(:category_id, :score).map { |id, score| [id, score] }.to_h
-    Vector.elements(@categories.map { |category| scores.fetch(category.id, 0) })
+    Vector.elements(Category.pluck(:id).map { |category_id| scores.fetch(category_id, 0) })
   end
 end

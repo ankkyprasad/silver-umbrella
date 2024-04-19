@@ -47,6 +47,15 @@ class User < ApplicationRecord
     Vector.elements(UserCategoryFeatureMap.where(user_id: id).pluck(:score))
   end
 
+  def recommended_blogs
+    blogs = Blog.where.not(user_id: id).map do |blog|
+      score = UserCategoryFeatureMap.similarity_score(self, blog)
+      { blog:, score: }
+    end
+
+    blogs.sort_by { |blog| blog[:score] }.reverse
+  end
+
   private
 
   def generate_feature_map

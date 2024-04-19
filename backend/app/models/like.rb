@@ -34,5 +34,17 @@ class Like < ApplicationRecord
     Like.exists?(likable_id:, likable_type:, user_id:)
   end
 
-  def update_users_feature_map; end
+  def update_users_feature_map
+    return if likable_type == VALID_LIKABLES.first
+
+    category_ids = likable.blog_category_mappings.pluck(:category_id)
+    return if category_ids.present? == false
+
+    # increment the score of relavant categories
+    UserCategoryFeatureMap.where(user_id:,
+                                 category_id: category_ids).where.not(score: 10).update_all('score = score + 1')
+
+    # decrement the score of relavant categories
+    UserCategoryFeatureMap.where(user_id:).where.not(category_id: category_ids).where.not(score: 0).update_all('score = score - 1')
+  end
 end

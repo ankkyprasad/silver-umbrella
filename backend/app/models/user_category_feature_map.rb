@@ -26,4 +26,15 @@ class UserCategoryFeatureMap < ApplicationRecord
   belongs_to :category
 
   validates :user_id, uniqueness: { scope: :category_id }
+
+  def self.similarity_score(first_entity, second_entity)
+    first_entity_feature_map = first_entity.feature_map
+    second_entity_feature_map = second_entity.feature_map
+
+    numerator = first_entity_feature_map.inner_product(second_entity_feature_map)
+    denominator = first_entity_feature_map.r * second_entity_feature_map.r
+    return denominator if denominator.zero?
+
+    (numerator / denominator * 100).to_i
+  end
 end

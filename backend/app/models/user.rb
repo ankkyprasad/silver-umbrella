@@ -29,13 +29,28 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :follow_users, class_name: 'Relationship', foreign_key: :follower_id
-  has_many :follows, through: :follow_users, dependent: :delete_all, source: :follower
+  has_many :follows, through: :follow_users, dependent: :delete_all, source: :followee
   has_many :following_users, class_name: 'Relationship', foreign_key: :followee_id
-  has_many :followings, through: :following_users, dependent: :delete_all, source: :followee
+  has_many :followings, through: :following_users, dependent: :delete_all, source: :follower
+  has_many :user_category_feature_maps, dependent: :delete_all
 
   after_create :generate_slug
+  after_create :generate_feature_map
+
+  INITIAL_FEATURE_VALUE = 5
 
   def generate_slug
     update!(slug: email.split('@').first)
+  end
+
+  def feature_map
+    Vector.elements(UserCategoryFeatureMap.where(user_id: id).pluck(:score))
+  end
+
+  private
+
+  def generate_feature_map
+    feature_map = Category.pluck(:id).map { |category_id| { user_id: id, category_id: } }
+    UserCategoryFeatureMap.create(feature_map)
   end
 end

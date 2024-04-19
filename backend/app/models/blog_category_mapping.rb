@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: blog_category_mappings
 #
 #  id          :bigint           not null, primary key
+#  score       :integer          default(5)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  blog_id     :bigint           not null
@@ -24,4 +27,6 @@ class BlogCategoryMapping < ApplicationRecord
 
   validates :category, uniqueness: { scope: :blog,
                                      message: 'already mapped with Blog' }
+
+  validates :score, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
 end

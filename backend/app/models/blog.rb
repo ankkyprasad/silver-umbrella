@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require 'matrix'
+
 # == Schema Information
 #
 # Table name: blogs
@@ -25,4 +29,20 @@ class Blog < ApplicationRecord
   has_many :likes, as: :likable, dependent: :delete_all
   has_many :blog_category_mappings, dependent: :delete_all
   has_many :categories, through: :blog_category_mappings
+
+  def similarity_score(other_blog)
+    current_blog_vector = feature_map
+    other_blog_vector = other_blog.feature_map
+
+    numerator = current_blog_vector.inner_product(other_blog_vector)
+    denominator = current_blog_vector.r * other_blog_vector.r
+
+    (numerator / denominator * 100).to_i
+  end
+
+  def feature_map
+    @categories = Category.all if @categories.nil?
+    scores = blog_category_mappings.pluck(:category_id, :score).map { |id, score| [id, score] }.to_h
+    Vector.elements(@categories.map { |category| scores.fetch(category.id, 0) })
+  end
 end

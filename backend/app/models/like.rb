@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: likes
@@ -24,8 +26,13 @@ class Like < ApplicationRecord
   belongs_to :likable, polymorphic: true
 
   validates :likable_type, inclusion: { in: VALID_LIKABLES, message: '%<value>s is not a valid likable type' }
+  validates :user_id, uniqueness: { scope: %i[likable_id likable_type], message: 'has already liked this entity' }
+
+  after_create :update_users_feature_map
 
   def self.exists_for_user?(likable_id, likable_type, user_id)
     Like.exists?(likable_id:, likable_type:, user_id:)
   end
+
+  def update_users_feature_map; end
 end

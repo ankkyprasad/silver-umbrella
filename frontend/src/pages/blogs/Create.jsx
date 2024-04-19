@@ -16,7 +16,7 @@ const Create = () => {
     mutationFn: createBlog,
     onSuccess: (response) => {
       const blogId = response.data.data.id;
-      navigate(`/blogs/${blogId}`);
+      navigate(`/blogs/edit/${blogId}`);
     },
     onError: (response) => {
       if (response.status === 401) {

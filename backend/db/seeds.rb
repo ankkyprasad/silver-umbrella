@@ -55,11 +55,16 @@ p 'comment created!'
 
 400.times do
   resource = Like::VALID_LIKABLES.sample
+  user_id = User.all.sample.id
+
+  existing_liked_resources = Like.where(user_id: user_id, likable_type: resource).pluck(:likable_id)
+  unliked_blogs = resource.constantize.where.not(id: existing_liked_resources)
+  resource_id = unliked_blogs.sample.id
 
   Like.create!(
-    likable_id: resource.constantize.all.sample.id,
+    likable_id: resource_id,
     likable_type: resource,
-    user_id: User.all.sample.id
+    user_id: user_id
   )
 end
 
@@ -67,13 +72,15 @@ p 'likes created!'
 
 categories = [
   'Personal Development',
-  'Food & Cooking',
+  'Food',
+  'Cooking',
   'History',
   'Technology',
   'Travel',
   'Health & Wellness',
   'Psychology',
-  'Career & Business',
+  'Career',
+  'Business',
   'Home & Garden',
   'Finance',
   'Lifestyle',
@@ -85,18 +92,21 @@ categories = [
   'Beauty & Fashion',
   'Parenting',
   'Education',
-  'Social Media',
   'Community',
-  'Architecture'
+  'Architecture',
+  'Science',
+  'Gaming',
+  'Programming',
+  'Relationships & Dating',
 ]
 
 Category.create(categories.map { |name| { name: } })
 
 p 'categories created'
 
-300.times do
+500.times do
   blog = Blog.all.sample
-  category = Category.all.sample
+  category = Category.where.not(id: blog.categories.pluck(:id)).sample
   BlogCategoryMapping.create!(blog:, category:)
 end
 

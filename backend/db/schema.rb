@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_13_194241) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_19_093513) do
   create_table "blog_category_mappings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "blog_id", null: false
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "score", default: 5
     t.index ["blog_id"], name: "index_blog_category_mappings_on_blog_id"
     t.index ["category_id"], name: "index_blog_category_mappings_on_category_id"
   end
@@ -79,6 +80,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_13_194241) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_category_feature_maps", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "category_id", null: false
+    t.integer "score", default: 5, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_user_category_feature_maps_on_category_id"
+    t.index ["user_id"], name: "index_user_category_feature_maps_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -98,4 +109,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_13_194241) do
   add_foreign_key "blogs", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "likes", "users"
+  add_foreign_key "user_category_feature_maps", "categories"
+  add_foreign_key "user_category_feature_maps", "users"
 end

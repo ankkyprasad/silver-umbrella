@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: categories
@@ -10,4 +12,5 @@
 class Category < ApplicationRecord
   has_many :blog_category_mappings, dependent: :delete_all
   has_many :blogs, through: :blog_category_mappings
+  has_many :user_category_feature_maps, dependent: :delete_all
 end

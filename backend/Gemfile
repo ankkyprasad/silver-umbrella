@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -56,4 +58,5 @@ gem 'devise'
 gem 'devise-api', github: 'nejdetkadir/devise-api', branch: 'main'
 gem 'dotenv-rails', groups: %i[development test]
 gem 'jsonapi-resources', '~> 0.9.12'
+gem 'matrix'
 gem 'rack-cors'
